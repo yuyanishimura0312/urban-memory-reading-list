@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<!--
+  design-meta (/dm) 判定: D4 文書 / 一覧型（文献まとめ・1枚の静的HTML・実装なしゆえ Phase 3-5 圧縮）
+  型: esse-sense 基礎レポートデザイン（/esrep）= ~/projects/research/miratuku-design-system/ds/esse-sense-report-base/report-base.html
+      :root と部品の CSS は型を逐語で写し、案件固有の部品は --lit- / .lit-* に分けて additive に足した（型の CSS は削っていない）。
+  型から変えた点（理由つき）:
+    (1) 表紙の写真列を使わない（.cover.lit-nophoto）。型の見本写真は Future Forum 2026 の会場写真で、この文献一覧に属する写真は無い。
+        別案件の素材を敷くと内容の混入になる（feedback_cross_case_content_contamination）ため、近黒パネルだけの表紙にした。
+    (2) <meta name="robots" content="noindex"> を外した。型は見本ゆえ noindex だが、本頁は公開ページである。
+    (3) 結びの背景写真を置かない（理由は (1) と同じ）。
+  配色: 赤白CI。単一アクセント #CC1400。純黒不使用。書体: Noto Sans JP（ゴシック法・イタリック不使用）・数値は Fira Code。
+  内容核: 書誌・被引用数・URL・公開状態は content.md（2026-10-14 調査）、概要文は summaries.md を一字も変えずに写した。
+          概要は <p class="lit-summary" data-id="N"> で番号つきに識別できる（主張規律の点検後に本体が差し替えるため）。
+-->
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地域の文化 × 都市の記憶 ― 読むべき主要論文10本（人類学重視）</title>
+<meta name="description" content="地域の文化と都市の記憶をめぐる主要論文10本の文献一覧。著者・年・誌名・被引用数・300字程度の概要と、本文に無料で到達できるかを1枚にまとめた。人類学の論文に印を付した。">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="esse-sense">
+<meta property="og:title" content="地域の文化 × 都市の記憶 ― 読むべき主要論文10本（人類学重視）">
+<meta property="og:description" content="地域の文化と都市の記憶をめぐる主要論文10本の文献一覧。著者・年・誌名・被引用数・300字程度の概要と、本文に無料で到達できるかを1枚にまとめた。人類学の論文に印を付した。">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="https://esse-sense.com/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ===========================================================
+   esse-sense 基礎レポート（report-base）
+   基礎スライド（esse-sense-slide-base）と同じ :root を写し、
+   版面だけを「投影する16:9」から「読む縦長の文書」へ移した。
+   型スケールは ds/tokens.css の本文版面（--fs-body clamp）に乗る。
+   =========================================================== */
+:root {
+  /* ---- 上段: 正本 ds/tokens.css と同名のキーは同値（同名異値を作らない）。照合は ds/verify-base-root.mjs ---- */
+  --paper: #FFFFFF; --surface: #FAFAFA; --surface-warm: #FAF8F4;
+  --ink-strong: #0E0E0E; --ink: #1A1A1A; --ink-soft: #3A3A3A; --ink-mute: #6B6B6B;
+  --rule: #E6E6E6;
+  --rule-light: #E8E8E8;   /* 正本に無い */
+  --accent: #CC1400; --accent-deep: #9A0F00; --accent-soft: #FF6A5A;
+  /* 基礎スライドと見た目を揃えるため、--es-* は同値を継承する */
+  /* ---- 局所名（--es-*）: 正本 tokens.css に無い、または正本と値を変えたい投影・本文用の値 ---- */
+  --es-ink: var(--ink-strong);   /* 本文と暗面の地を兼ねる。正本 --ink-strong を参照 */
+  /* 原本 komany-yoima-zemi/slides/deck.html で「投影での薄れを見込み一段濃く」した値 */
+  --es-ink-mute: #5E5E5E; --es-rule: #D6D6D6; --es-rule-light: #E8E8E8;
+  /* ANSWER+ CI の暗面の赤（tokens.css answer-warm-dark の --accent）。紙面の地には使わない */
+  --es-accent-on-dark: #FF5A47;
+  --font-sans: "Noto Sans JP", "Hiragino Sans", -apple-system, sans-serif;
+  --font-mono: "Fira Code", "SF Mono", Menlo, monospace;
+  --fs-body: clamp(15px, 1.05vw, 17px);
+  --fs-lead: clamp(17px, 1.3vw, 20px);
+  --fs-h2: clamp(26px, 2.6vw, 36px);
+  --fs-h3: clamp(19px, 1.6vw, 22px);
+  --fs-title: clamp(36px, 5vw, 64px);
+  --measure: 66ch; --measure-wide: 1080px;
+  --side: clamp(16px, 6vw, 96px);
+  --space-1: 8px; --space-2: 16px; --space-3: 24px; --space-4: 40px; --space-5: 64px; --space-6: 96px;
+  --ease: cubic-bezier(.16,1,.3,1);
+}
+* { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--paper); color: var(--es-ink); font-family: var(--font-sans); font-size: var(--fs-body); line-height: 1.8; letter-spacing: .02em; font-feature-settings: "palt", "kern"; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; word-break: auto-phrase; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.skip-link { position: absolute; left: -999px; top: 8px; background: var(--es-ink); color: #fff; padding: 8px 12px; z-index: 100; }
+.skip-link:focus { left: 8px; }
+strong { color: var(--accent); font-weight: 700; }
+.mono { font-family: var(--font-mono); }
+
+/* ---------- 表紙（写真＋近黒パネル。スライド 01 と同じ構図） ---------- */
+.cover { display: grid; grid-template-columns: 1.15fr 1fr; min-height: 78vh; }
+.cover-photo { position: relative; overflow: hidden; background: var(--lqip, var(--surface)); min-height: 320px; }
+.cover-photo img { width: 100%; height: 100%; object-fit: cover; }
+.cover-photo .credit { position: absolute; left: 0; bottom: 0; padding: 6px 12px; font-size: 11px; letter-spacing: .12em; color: rgba(255,255,255,.9); background: rgba(14,14,14,.74); }
+.cover-panel { background: var(--es-ink); color: #fff; padding: var(--space-4) var(--space-4) var(--space-3); display: grid; grid-template-rows: auto 1fr auto; gap: var(--space-3); }
+.brand-logo { height: 30px; width: auto; }
+.cover-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 12px; letter-spacing: .12em; color: rgba(255,255,255,.62); }
+.cover-main { display: flex; flex-direction: column; justify-content: center; }
+.cover-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .32em; color: var(--es-accent-on-dark); text-transform: uppercase; margin-bottom: 14px; }
+.cover-title { font-weight: 900; font-size: var(--fs-title); line-height: 1.12; letter-spacing: -.02em; margin: 0; }
+.cover-sub { font-size: var(--fs-lead); font-weight: 500; color: rgba(255,255,255,.82); margin-top: 14px; line-height: 1.6; }
+.cover-rule { width: 56px; height: 4px; background: var(--es-accent-on-dark); margin: 22px 0; }
+.cover-meta { font-family: var(--font-mono); font-size: 13px; letter-spacing: .1em; color: rgba(255,255,255,.62); line-height: 1.9; }
+.cover-foot { display: flex; justify-content: space-between; font-size: 12px; letter-spacing: .1em; color: rgba(255,255,255,.62); padding-top: 12px; border-top: 1px solid rgba(255,255,255,.22); }
+@media (max-width: 800px) { .cover { grid-template-columns: 1fr; } .cover-photo { min-height: 46vw; } }
+
+/* ---------- 走る見出し（スクロールで追従） ---------- */
+.topbar { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.96); backdrop-filter: blur(6px); border-bottom: 1px solid var(--es-rule); }
+.topbar-inner { max-width: var(--measure-wide); margin: 0 auto; padding: 10px var(--side); display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; }
+.topbar .brand-logo { height: 22px; }
+.topbar .doc { font-size: 12px; letter-spacing: .08em; color: var(--es-ink-mute); text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.topbar .num { font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; color: var(--accent); }
+
+/* ---------- 版面 ---------- */
+.page { max-width: var(--measure-wide); margin: 0 auto; padding: var(--space-5) var(--side) var(--space-6); }
+.section { padding: var(--space-5) 0; border-top: 1px solid var(--es-rule); }
+.section:first-of-type { border-top: none; padding-top: var(--space-3); }
+.sec-head { margin-bottom: var(--space-4); }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .28em; color: var(--es-ink-mute); text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+.eyebrow .n { font-family: var(--font-mono); font-size: 13px; color: var(--accent); letter-spacing: .12em; }
+h2 { font-weight: 900; font-size: var(--fs-h2); line-height: 1.25; letter-spacing: -.02em; margin: 10px 0 0; }
+.lead { font-size: var(--fs-lead); line-height: 1.7; font-weight: 500; color: var(--ink-soft); max-width: var(--measure); margin: 14px 0 0; }
+h3 { font-size: var(--fs-h3); font-weight: 700; line-height: 1.35; margin: var(--space-4) 0 var(--space-2); letter-spacing: -.01em; }
+.subhead { font-size: 12px; font-weight: 700; letter-spacing: .16em; color: var(--accent); text-transform: uppercase; margin: var(--space-3) 0 var(--space-2); padding-bottom: 6px; border-bottom: 2px solid var(--accent); display: inline-block; }
+p { max-width: var(--measure); margin: 0 0 var(--space-2); }
+.prose > p + p { text-indent: 1em; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); align-items: start; }
+.wide-l { display: grid; grid-template-columns: 1.25fr 1fr; gap: var(--space-4); align-items: start; }
+@media (max-width: 800px) { .two, .wide-l { grid-template-columns: 1fr; } }
+
+/* ---------- 部品（スライドと同名・同値） ---------- */
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: var(--space-3); margin: var(--space-3) 0; }
+.facts.f3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+@media (max-width: 800px) { .facts, .facts.f3 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+.fact { border-top: 2px solid var(--accent); padding-top: 8px; display: flex; flex-direction: column; gap: 2px; }
+.fact-label { font-size: 12px; font-weight: 700; letter-spacing: .12em; color: var(--es-ink-mute); }
+.fact-num { font-weight: 900; font-size: clamp(30px, 3.2vw, 42px); line-height: 1.05; color: var(--accent); letter-spacing: -.01em; }
+.fact-num .unit { font-size: 15px; font-weight: 700; color: var(--ink-soft); margin-left: 3px; }
+.fact-num.ink { color: var(--es-ink); }
+.fact-desc { font-size: 13px; line-height: 1.55; color: var(--ink-soft); }
+ul.pts { list-style: none; padding: 0; margin: 0 0 var(--space-2); display: flex; flex-direction: column; gap: 10px; max-width: var(--measure); }
+ul.pts li { position: relative; padding-left: 18px; line-height: 1.65; }
+ul.pts li::before { content: ""; position: absolute; left: 0; top: .66em; width: 8px; height: 8px; background: var(--accent); }
+ul.pts li.warn::before { background: var(--es-ink); }
+ul.pts small { display: block; font-size: 13px; color: var(--es-ink-mute); margin-top: 1px; }
+.note { padding: 14px 20px; background: var(--surface-warm); border-left: 4px solid var(--accent); font-weight: 500; line-height: 1.7; margin: var(--space-3) 0; max-width: var(--measure-wide); }
+.note.ink { border-left-color: var(--es-ink); }
+table.tbl { width: 100%; border-collapse: collapse; margin: var(--space-2) 0; }
+table.tbl th { font-size: 12px; font-weight: 700; letter-spacing: .12em; color: var(--es-ink-mute); text-align: left; padding: 4px 10px 8px; border-bottom: 2px solid var(--es-ink); }
+table.tbl th.r, table.tbl td.r { text-align: right; }
+table.tbl td { padding: 10px; border-bottom: 1px solid var(--es-rule-light); vertical-align: middle; }
+table.tbl td.nm { font-weight: 700; }
+table.tbl td.nm small { display: block; font-size: 12px; font-weight: 400; color: var(--es-ink-mute); }
+table.tbl td.r { font-family: var(--font-mono); font-size: 1.02em; font-weight: 500; font-variant-numeric: tabular-nums; }
+table.tbl td.r.hi { color: var(--accent); font-weight: 700; }
+table.tbl td.r.dim { color: var(--es-ink-mute); }
+table.tbl tr.total td { border-top: 2px solid var(--es-ink); border-bottom: none; font-weight: 700; background: var(--surface); }
+.tbl-wrap { overflow-x: auto; max-width: 100%; }
+.caption { font-size: 12px; color: var(--es-ink-mute); line-height: 1.6; margin: 6px 0 var(--space-3); }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--space-3); margin: var(--space-3) 0; }
+@media (max-width: 800px) { .steps { grid-template-columns: 1fr; } }
+.steps div { border-top: 4px solid var(--accent); padding-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.steps div:nth-child(2) { border-top-color: var(--es-ink); }
+.steps h6 { margin: 0; font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .12em; color: var(--accent); }
+.steps div:nth-child(2) h6 { color: var(--es-ink); }
+.steps .st { font-size: var(--fs-h3); font-weight: 700; line-height: 1.35; }
+.steps p { font-size: 14px; line-height: 1.65; color: var(--ink-soft); margin: 0; }
+figure.ph { margin: var(--space-3) 0; position: relative; overflow: hidden; background: var(--lqip, var(--surface)); }
+figure.ph img { width: 100%; height: 100%; object-fit: cover; }
+figure.ph figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 6px 12px; font-size: 12px; line-height: 1.4; font-weight: 500; color: #fff; background: rgba(14,14,14,.74); }
+.collage { display: grid; grid-template-columns: 1.5fr 1fr 1fr; grid-template-rows: 220px 220px; gap: 10px; margin: var(--space-3) 0; }
+.collage figure.ph { margin: 0; }
+.collage .a { grid-row: 1 / 3; }
+.collage .voice { background: var(--es-ink); color: #fff; padding: 20px 22px; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+.voice .vq { font-size: 17px; font-weight: 700; line-height: 1.6; padding-left: 14px; border-left: 3px solid var(--es-accent-on-dark); }
+.voice .vc { font-size: 12px; font-weight: 500; letter-spacing: .12em; color: var(--es-accent-on-dark); }
+@media (max-width: 800px) { .collage { grid-template-columns: 1fr 1fr; grid-template-rows: auto; } .collage .a { grid-column: 1 / -1; grid-row: auto; height: 52vw; } .collage figure.ph { height: 40vw; } }
+.quote { padding-left: 14px; border-left: 3px solid var(--accent); font-size: 15px; line-height: 1.7; color: var(--ink-soft); max-width: var(--measure); margin: var(--space-2) 0; }
+.quote b { display: block; font-size: 11px; letter-spacing: .1em; color: var(--es-ink-mute); margin-top: 4px; font-weight: 700; }
+.people { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin: var(--space-2) 0; }
+.people div { border-top: 2px solid var(--es-ink); padding-top: 8px; font-size: 14px; line-height: 1.5; }
+.people div b { display: block; font-size: 17px; }
+.people div small { color: var(--es-ink-mute); }
+
+/* ---------- 目次（スライド 02 と同じ A/B 列） ---------- */
+.toc { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+@media (max-width: 800px) { .toc { grid-template-columns: 1fr; } }
+.toc-col.b { background: var(--surface-warm); padding: var(--space-2) var(--space-3); margin: calc(-1 * var(--space-2)) 0; }
+.toc-head { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: end; padding-bottom: 8px; border-bottom: 3px solid var(--accent); margin-bottom: 4px; }
+.toc-col.b .toc-head { border-bottom-color: var(--es-ink); }
+.toc-head .letter { font-weight: 900; font-size: 56px; line-height: .9; letter-spacing: -.03em; color: var(--accent); }
+.toc-col.b .toc-head .letter { color: var(--es-ink); }
+.toc-head .lab { font-size: 15px; font-weight: 700; padding-bottom: 6px; }
+.toc-head .lab small { display: block; font-size: 11px; letter-spacing: .2em; color: var(--es-ink-mute); text-transform: uppercase; margin-bottom: 2px; }
+.toc-item { display: grid; grid-template-columns: 56px 1fr; gap: 14px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--es-rule-light); color: inherit; text-decoration: none; }
+.toc-item:last-child { border-bottom: none; }
+.toc-item:hover .t { color: var(--accent); }
+.toc-item .n { font-family: var(--font-mono); font-size: 16px; font-weight: 500; color: var(--accent); letter-spacing: .04em; }
+.toc-col.b .toc-item .n { color: var(--es-ink); }
+.toc-item .t { font-size: var(--fs-h3); font-weight: 700; line-height: 1.3; }
+.toc-item .t small { display: block; font-size: 13px; font-weight: 400; color: var(--es-ink-mute); margin-top: 2px; line-height: 1.5; }
+
+/* ---------- 結び（暗面） ---------- */
+.closing { background: var(--es-ink); color: #fff; position: relative; overflow: hidden; }
+.closing .bg { position: absolute; inset: 0; }
+.closing .bg img { width: 100%; height: 100%; object-fit: cover; opacity: .22; filter: grayscale(1); }
+.closing-inner { position: relative; max-width: var(--measure-wide); margin: 0 auto; padding: var(--space-6) var(--side); }
+.closing .eyebrow { color: var(--es-accent-on-dark); }
+.closing .msg { font-weight: 900; font-size: var(--fs-h2); line-height: 1.4; letter-spacing: -.02em; margin: 14px 0 0; max-width: 28ch; }
+.closing .msg-rule { width: 56px; height: 3px; background: var(--es-accent-on-dark); margin: 24px 0; }
+.closing .voices { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px 32px; max-width: var(--measure-wide); }
+@media (max-width: 800px) { .closing .voices { grid-template-columns: 1fr; } }
+.closing .voices div { padding: 2px 0 2px 14px; border-left: 2px solid rgba(255,255,255,.3); }
+.closing .voices b { display: block; font-size: 13px; letter-spacing: .08em; color: var(--es-accent-on-dark); margin-bottom: 2px; }
+.closing .voices span { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.94); }
+.closing p.msg-note { color: rgba(255,255,255,.76); margin-top: var(--space-3); }
+
+/* ---------- フッター ---------- */
+.foot { max-width: var(--measure-wide); margin: 0 auto; padding: var(--space-3) var(--side); display: grid; grid-template-columns: auto 1fr auto; gap: 16px; font-size: 12px; letter-spacing: .1em; color: var(--es-ink-mute); border-top: 1px solid var(--es-rule); }
+.foot .c { text-align: center; }
+@media (max-width: 640px) { .foot { grid-template-columns: 1fr; text-align: left; } .foot .c { text-align: left; } }
+
+/* ---------- 印刷（A4 縦・柱と頁番号） ---------- */
+@page { size: A4; margin: 18mm 16mm 20mm; @top-left { content: "esse-sense.inc"; font-family: "Noto Sans JP", sans-serif; font-size: 8pt; letter-spacing: .1em; color: #5E5E5E; } @top-right { content: string(doctitle); font-family: "Noto Sans JP", sans-serif; font-size: 8pt; letter-spacing: .08em; color: #5E5E5E; } @bottom-center { content: counter(page); font-family: "Fira Code", monospace; font-size: 8pt; color: #CC1400; } }
+.doc-title { string-set: doctitle content(); }
+@media print {
+  .topbar { display: none; }
+  .cover { min-height: auto; break-after: page; grid-template-columns: 1fr; }
+  .cover-photo { height: 110mm; }
+  .cover-panel { padding: 16mm 14mm; }
+  .section { break-before: page; border-top: none; padding-top: 0; }
+  .section:first-of-type { break-before: auto; }
+  .facts, .steps, table.tbl, figure.ph, .note, .collage { break-inside: avoid; }
+  .closing { break-before: page; }
+  .closing .bg { display: none; }
+  body { font-size: 10.5pt; line-height: 1.7; }
+}
+
+/* ===========================================================
+   案件固有（additive・型の CSS は変えない）— 文献一覧の部品
+   値はすべて上の :root のトークンを参照する。新しい色・書体は作らない。
+   =========================================================== */
+/* 写真を持たない表紙: パネルのみを全幅に。高さは内容に合わせる（この案件に属する写真が無いため） */
+.cover.lit-nophoto { grid-template-columns: 1fr; min-height: auto; }
+.cover.lit-nophoto .cover-panel { min-height: 62vh; padding-left: var(--side); padding-right: var(--side); }
+/* 内側を本文 .page と同じ幅・同じ左端に（1280 幅で表紙と本文の左端がずれていた・auditor 指摘） */
+.cover.lit-nophoto .cover-head, .cover.lit-nophoto .cover-main, .cover.lit-nophoto .cover-foot { width: 100%; max-width: calc(var(--measure-wide) - 2 * var(--side)); margin-left: auto; margin-right: auto; }
+.cover.lit-nophoto .cover-sub { max-width: 40ch; }
+/* 書誌メタ: 型の .people（上罫＋太字の見出し）をそのまま使い、狭幅だけ 2 列にする */
+.lit-meta.people { margin: var(--space-3) 0 var(--space-2); }
+.lit-meta.people div b { overflow-wrap: anywhere; }
+.lit-meta.people div { font-size: 12px; font-weight: 700; letter-spacing: .12em; color: var(--es-ink-mute); }
+.lit-meta.people div b { font-weight: 700; letter-spacing: 0; color: var(--es-ink); margin-bottom: 2px; }
+.lit-meta.people div small { font-weight: 400; letter-spacing: .02em; display: block; margin-top: 2px; }
+@media (max-width: 640px) { .lit-meta.people { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+/* 公開状態のラベル: 文字＋形（塗り／枠／細い枠）で区別し、色だけに頼らない */
+.lit-st { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .08em; line-height: 1; padding: 5px 9px; border: 1px solid var(--es-ink); color: var(--es-ink); white-space: nowrap; }
+.lit-st.open { background: var(--es-ink); color: #fff; }
+.lit-st.paywall { border-color: var(--es-ink-mute); color: var(--es-ink-mute); font-weight: 500; }
+/* 人類学の印: 文字で示し、下罫だけをアクセントにする */
+.lit-tag { font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: .2em; color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 2px; line-height: 1; text-transform: none; }
+/* 概要の根拠ラベル（本文／要旨／紹介）: 小さく、罫1本の枠 */
+.lit-basis { display: inline-block; font-size: 12px; font-weight: 500; letter-spacing: .1em; line-height: 1; padding: 4px 8px; border: 1px solid var(--es-rule); color: var(--es-ink-mute); vertical-align: middle; margin-left: 10px; }
+.lit-sumhead { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 0; margin: var(--space-3) 0 var(--space-2); }
+.lit-sumhead .subhead { margin: 0; }
+/* 概要本文: 型の本文幅・行間のまま。差し替えやすいよう 1 段落 = 1 要素 */
+p.lit-summary { max-width: var(--measure); margin: 0 0 var(--space-3); }
+/* 本文への経路: 等幅・折り返し可（横スクロールを出さない） */
+.lit-link { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font-size: 13px; max-width: var(--measure-wide); margin: 0; }
+.lit-link a { font-family: var(--font-mono); overflow-wrap: anywhere; word-break: break-all; color: var(--ink-soft); text-decoration-color: var(--accent); text-underline-offset: .2em; }
+.lit-link a:hover { color: var(--accent-deep); }
+.lit-link .hint { color: var(--es-ink-mute); }
+/* 目次の A 列は 10 行になるため、各行の題は 1 行に収める */
+.toc-col.a .toc-item .t { font-size: 16px; }
+.toc-col.a .toc-item .t small { font-size: 12px; }
+/* 凡例の行: ラベル＋説明 */
+.lit-legend { list-style: none; margin: 0 0 var(--space-2); padding: 0; display: flex; flex-direction: column; gap: 10px; max-width: var(--measure); }
+.lit-legend li { display: flex; align-items: baseline; gap: 12px; line-height: 1.6; }
+@media print {
+  .cover.lit-nophoto .cover-panel { min-height: auto; }
+  .lit-st.open { background: #0E0E0E; color: #fff; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<!-- ============ 表紙 ============ -->
+<header class="cover lit-nophoto" role="banner">
+  <div class="cover-panel">
+    <div class="cover-head"><img class="brand-logo" src="assets/esse-sense-logo-white.png" alt="esse-sense"><span>Reading list ｜ Public</span></div>
+    <div class="cover-main">
+      <div class="cover-eyebrow">Reading List · 2026.10</div>
+      <h1 class="cover-title doc-title">地域の文化 ×<br>都市の記憶</h1>
+      <div class="cover-sub">読むべき主要論文10本 ― 人類学重視の文献一覧</div>
+      <div class="cover-rule"></div>
+      <div class="cover-meta">2026.10.15 ／ esse-sense.inc<br>論文10本・補欠3本・書籍3冊 ／ 被引用数は OpenAlex 2026-10-14 時点</div>
+    </div>
+    <div class="cover-foot"><span>esse-sense.inc</span><span>Public</span></div>
+  </div>
+</header>
+
+<div class="topbar"><div class="topbar-inner"><img class="brand-logo" src="assets/esse-sense-logo.png" alt="esse-sense"><div class="doc">地域の文化 × 都市の記憶 ― 読むべき主要論文10本</div><div class="num">2026.10</div></div></div>
+
+<main id="main" class="page">
+
+<!-- ============ 導入・凡例 ============ -->
+<section class="section" id="intro">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">00</span>Introduction</div>
+    <h2>地域の文化と都市の記憶を考えるために、まず読む10本</h2>
+    <p class="lead">地域の文化と都市の記憶の関係を考えるときに、まず読んでおきたい10本を被引用数の多い順に並べた。それぞれの論文について著者・年・題名・誌名・被引用数・概要と、本文に無料で到達できるかどうかを記す。人類学の論文には印を付した。</p>
+  </div>
+  <div class="facts">
+    <div class="fact"><div class="fact-label">論文</div><div class="fact-num ink">10<span class="unit">本</span></div><div class="fact-desc">被引用数の多い順。補欠3本・書籍3冊を末尾に添える</div></div>
+    <div class="fact"><div class="fact-label">人類学</div><div class="fact-num">5<span class="unit">本</span></div><div class="fact-desc">05・07・08・09・10 番。各章の見出しに印を付した</div></div>
+    <div class="fact"><div class="fact-label">無料で全文を確認</div><div class="fact-num ink">3<span class="unit">本</span></div><div class="fact-desc">06・09・10 番。残りは購読が必要</div></div>
+    <div class="fact"><div class="fact-label">被引用の範囲</div><div class="fact-num ink">120<span class="unit">〜</span>4,864</div><div class="fact-desc">OpenAlex・2026-10-14 時点の値。以後は動く</div></div>
+  </div>
+  <div class="two">
+    <div>
+      <div class="subhead">本文の公開状態</div>
+      <ul class="lit-legend">
+        <li><span class="lit-st open">全文</span><span>無料で全文を確認済み。リンク先からそのまま読める</span></li>
+        <li><span class="lit-st paywall">購読</span><span>購読が必要。所属機関の契約か購入で読む</span></li>
+      </ul>
+      <div class="subhead">人類学の印</div>
+      <ul class="lit-legend">
+        <li><span class="lit-tag">人類学</span><span>人類学の論文。見出しの番号の隣に付した</span></li>
+      </ul>
+    </div>
+    <div>
+      <div class="subhead">概要の根拠</div>
+      <ul class="lit-legend">
+        <li><span class="lit-basis" style="margin-left:0">本文</span><span>全文を読んで要約した</span></li>
+        <li><span class="lit-basis" style="margin-left:0">要旨</span><span>著者の要旨・冒頭に基づく</span></li>
+        <li><span class="lit-basis" style="margin-left:0">紹介</span><span>要旨が入手できず、書誌と二次的な紹介に基づく。精度が他より低い</span></li>
+      </ul>
+      <div class="note ink">意義の指標は被引用数（OpenAlex・2026-10-14）。著者の h 指数は著者の同定が粗く過小に出やすいため参考値とし、この一覧では表示していない。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 目次 ============ -->
+<section class="section" id="toc">
+  <div class="sec-head"><div class="eyebrow"><span class="n">00</span>Contents</div><h2>目次</h2></div>
+  <div class="toc">
+    <div class="toc-col a">
+      <div class="toc-head"><div class="letter">A</div><div class="lab"><small>Part A</small>主要論文10本</div></div>
+      <a class="toc-item" href="#p1"><span class="n">01</span><span class="t">Nora 1989<small>Between Memory and History: Les Lieux de Mémoire</small></span></a>
+      <a class="toc-item" href="#p2"><span class="n">02</span><span class="t">Olick &amp; Robbins 1998<small>Social Memory Studies</small></span></a>
+      <a class="toc-item" href="#p3"><span class="n">03</span><span class="t">Connerton 2008<small>Seven types of forgetting</small></span></a>
+      <a class="toc-item" href="#p4"><span class="n">04</span><span class="t">Lewicka 2008<small>Place attachment, place identity, and place memory</small></span></a>
+      <a class="toc-item" href="#p5"><span class="n">05</span><span class="t">Appadurai 2000<small>Spectral Housing and Urban Cleansing</small></span></a>
+      <a class="toc-item" href="#p6"><span class="n">06</span><span class="t">Till 2012<small>Wounded cities</small></span></a>
+      <a class="toc-item" href="#p7"><span class="n">07</span><span class="t">Low 1996<small>Spatializing Culture</small></span></a>
+      <a class="toc-item" href="#p8"><span class="n">08</span><span class="t">Berliner 2005<small>The Abuses of Memory</small></span></a>
+      <a class="toc-item" href="#p9"><span class="n">09</span><span class="t">Herzfeld 2010<small>Engagement, Gentrification, and the Neoliberal Hijacking of History</small></span></a>
+      <a class="toc-item" href="#p10"><span class="n">10</span><span class="t">Degnen 2015<small>Socialising place attachment</small></span></a>
+    </div>
+    <div class="toc-col b">
+      <div class="toc-head"><div class="letter">B</div><div class="lab"><small>Part B</small>付記</div></div>
+      <a class="toc-item" href="#b1"><span class="n">B-1</span><span class="t">補欠と書籍<small>補欠3本・書籍3冊</small></span></a>
+      <a class="toc-item" href="#closing"><span class="n">B-2</span><span class="t">この一覧の限界<small>全文確認の範囲・検索対象外・時点</small></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 ============ -->
+<section class="section" id="p1">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">01</span>Representations 26 · 1989</div>
+    <h2>Between Memory and History: Les Lieux de Mémoire</h2>
+    <p class="lead">共同体の記憶の環境が失われたからこそ「記憶の場」が作られる。</p>
+  </div>
+  <div class="lit-meta people">
+    <div><b>Pierre Nora</b>著者</div>
+    <div><b>Representations 26</b>誌名<br><small>1989</small></div>
+    <div><b class="mono">4,864</b>被引用<br><small>OpenAlex・2026-10-14</small></div>
+    <div><b>購読</b>本文の公開<br><small>所属機関の契約か購入で読む</small></div>
+  </div>
+  <div class="lit-sumhead"><div class="subhead">概要</div><span class="lit-basis">根拠: 紹介</span></div>
+  <p class="lit-summary" data-id="1">近代化によって、記憶を日常の中で生きていた共同体――農村の慣習や家族、教会や国民の伝統――が失われていく。ノラはこれを「記憶の環境（milieux de mémoire）」の消滅と呼び、その代わりに記念碑・博物館・記念日・史跡のような「記憶の場（lieux de mémoire）」が意図的に作られるようになったと論じる。記憶と歴史を対立させ、記憶が生きた営みでなくなったからこそ、場所や記録に託して保存しようとする欲望が強まる、という見取り図を示した。記念碑や地名、保存運動を扱う記憶研究で頻繁に参照される論文の一つである（被引用はおよそ4,900件）。要旨は未入手で、二次的な紹介に基づく。</p>
+  <p class="lit-link"><span class="lit-st paywall">購読</span><a href="https://www.jstor.org/stable/2928520">https://www.jstor.org/stable/2928520</a></p>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="section" id="p2">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">02</span>Annual Review of Sociology 24 · 1998</div>
+    <h2>Social Memory Studies</h2>
+    <p class="lead">社会的記憶研究の総説。</p>
+  </div>
+  <div class="lit-meta people">
+    <div><b>Olick &amp; Robbins</b>著者</div>
+    <div><b>Annual Review of Sociology 24</b>誌名<br><small>1998</small></div>
+    <div><b class="mono">1,948</b>被引用<br><small>OpenAlex・2026-10-14</small></div>
+    <div><b>購読</b>本文の公開<br><small>所属機関の契約か購入で読む</small></div>
+  </div>
+  <div class="lit-sumhead"><div class="subhead">概要</div><span class="lit-basis">根拠: 要旨</span></div>
+  <p class="lit-summary" data-id="2">社会的記憶の研究は多くの分野で進められてきたが、中心となる枠組みを持たない状態だった。著者らはこの分散した研究群を一つの伝統として組み立て直し、アルヴァックスの集合的記憶論からの系譜をたどる。そのうえで「集合的記憶」をめぐる定義の争点を整理し、記憶を固定した実体ではなく、人々が過去を思い出し、語り、記念する「想起の実践」として歴史的に研究する道を示す。さらに、記憶が持続する条件と変化する条件についての社会学の理論を概観する。都市や地域の記憶を研究する前に、この領域の用語と論点の地図を手に入れるための総説である。</p>
+  <p class="lit-link"><span class="lit-st paywall">購読</span><a href="https://doi.org/10.1146/annurev.soc.24.1.105">https://doi.org/10.1146/annurev.soc.24.1.105</a></p>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="section" id="p3">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">03</span>Memory Studies 1(1) · 2008</div>
+    <h2>Seven types of forgetting</h2>
+    <p class="lead">忘却の7類型。</p>
+  </div>
+  <div class="lit-meta people">
+    <div><b>Paul Connerton</b>著者</div>
+    <div><b>Memory Studies 1(1)</b>誌名<br><small>2008</small></div>
+    <div><b class="mono">814</b>被引用<br><small>OpenAlex・2026-10-14</small></div>
+    <div><b>購読</b>本文の公開<br><small>所属機関の契約か購入で読む</small></div>
+  </div>
+  <div class="lit-sumhead"><div class="subhead">概要</div><span class="lit-basis">根拠: 要旨</span></div>
+  <p class="lit-summary" data-id="3">文化的記憶をめぐる議論は「記憶し記念することは善であり、忘れることは失敗だ」という前提に立ってきた。社会人類学者のコナトンはこの前提が自明でないと指摘し、「忘れる」という一語にまとめられてきた行為を少なくとも7つの型に分ける。抑圧的な抹消、規範として求められる忘却、新しい自己像をつくるための忘却、構造的な健忘、無効化としての忘却、計画的な陳腐化としての忘却、屈辱による沈黙である。再開発で街並みや地名が消えていく過程や、地域の文化が語られなくなる過程を、単なる喪失ではなく型の違う忘却として読み分けるための道具になる。</p>
+  <p class="lit-link"><span class="lit-st paywall">購読</span><a href="https://doi.org/10.1177/1750698007083889">https://doi.org/10.1177/1750698007083889</a></p>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="section" id="p4">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">04</span>J. Environmental Psychology 28 · 2008</div>
+    <h2>Place attachment, place identity, and place memory: Restoring the forgotten city past</h2>
+    <p class="lead">Lviv（200名）とWrocław（301名）で戦前の都市の集合的記憶に民族的偏り。</p>
+  </div>
+  <div class="lit-meta people">
+    <div><b>Maria Lewicka</b>著者</div>
+    <div><b>J. Environmental Psychology 28</b>誌名<br><small>2008</small></div>
+    <div><b class="mono">781</b>被引用<br><small>OpenAlex・2026-10-14</small></div>
+    <div><b>購読</b>本文の公開<br><small>所属機関の契約か購入で読む</small></div>
+  </div>
+  <div class="lit-sumhead"><div class="subhead">概要</div><span class="lit-basis">根拠: 紹介</span></div>
+  <p class="lit-summary" data-id="4">第二次大戦後の国境変更で住民がほぼ入れ替わった2つの都市、ウクライナのリヴィウ（200名）とポーランドのヴロツワフ（301名）で調査を行った研究である。住民が戦前の都市の過去をどう記憶しているか、その過去にどれだけ関心を持つかを測り、場所への愛着や場所のアイデンティティとの関係を調べた。その結果、戦前の都市についての集合的記憶には強い民族的な偏りがあり、偏りの原因は2つの都市で異なることが示された。結果は知覚の二重過程モデルで解釈されている。「忘れられた多文化の過去」と、いまの住民の場所への結びつきの関係を実際に測った研究として広く引用されている（被引用781件）。要旨は未入手で、二次的な紹介に基づく。</p>
+  <p class="lit-link"><span class="lit-st paywall">購読</span><a href="https://doi.org/10.1016/j.jenvp.2008.02.001">https://doi.org/10.1016/j.jenvp.2008.02.001</a></p>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="section" id="p5">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">05</span>Public Culture 12(3) · 2000<span class="lit-tag">人類学</span></div>
+    <h2>Spectral Housing and Urban Cleansing: Notes on Millennial Mumbai</h2>
+    <p class="lead">住宅不足と民族主義的な都市の「浄化」。</p>
+  </div>
+  <div class="lit-meta people">
+    <div><b>Arjun Appadurai</b>著者</div>
+    <div><b>Public Culture 12(3)</b>誌名<br><small>2000</small></div>
+    <div><b class="mono">586</b>被引用<br><small>OpenAlex・2026-10-14</small></div>
+    <div><b>購読</b>本文の公開<br><small>所属機関の契約か購入で読む</small></div>
+  </div>
+  <div class="lit-sumhead"><div class="subhead">概要</div><span class="lit-basis">根拠: 要旨＋紹介</span></div>
+  <p class="lit-summary" data-id="5">ボンベイ（現ムンバイ）のような都市は、後期資本主義やグローバル化をめぐる既存の物語にうまく収まらない、とアパドゥライは書き出す。そこでは工場の製造業、職人の手仕事、法律や金融のサービス業、世界の金融資本が、時間の流れを異にしながら隣り合っている。論文は、住宅の慢性的な不足と、民族主義による都市の「浄化」とを結びつけて論じ、1992〜93年の暴動における少数派への暴力もその文脈で扱っているとされる。都市の空間をめぐる争いと暴力を人類学から論じた論文として、この主題でよく参照される（被引用586件）。本文は未確認で、要旨と一般的な紹介に基づく。</p>
+  <p class="lit-link"><span class="lit-st paywall">購読</span><a href="https://muse.jhu.edu/article/26210">https://muse.jhu.edu/article/26210</a></p>
+</section>
+
+<!-- ============ 06 ============ -->
+<section class="section" id="p6">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">06</span>Political Geography 31 · 2012</div>
+    <h2>Wounded cities: Memory-work and a place-based ethics of care</h2>
+    <p class="lead">立ち退きの傷を負った都市の記憶の作業。</p>
+  </div>
+  <div class="lit-meta people">
+    <div><b>Karen E. Till</b>著者</div>
+    <div><b>Political Geography 31</b>誌名<br><small>2012</small></div>
+    <div><b class="mono">400</b>被引用<br><small>OpenAlex・2026-10-14</small></div>
+    <div><b>全文</b>本文の公開<br><small>無料で全文を確認済み</small></div>
+  </div>
+  <div class="lit-sumhead"><div class="subhead">概要</div><span class="lit-basis">根拠: 本文</span></div>
+  <p class="lit-summary" data-id="6">過去の暴力や排除の跡を抱えた都市を「傷ついた都市」と捉えながら、同時に住民へのケアを差し出す環境として考えるとどうなるか。ティルはボゴタ、ケープタウン、ベルリン、ミネアポリス、ロアノークなど、強制的な立ち退きによって空間が抑圧の記憶で満たされた都市を取り上げる。そこで住民や芸術家、教育者、活動家が続ける創造的な実践を民族誌的に調べ、「記憶の作業（memory-work）」と「場所に根ざしたケアの倫理」という概念を提案する。たとえばボゴタでは、取り壊された地区の元住民が演劇として場所を演じ直した。都市への権利を、過去の不正義に向き合う営みとして捉え直している。</p>
+  <p class="lit-link"><span class="lit-st open">全文</span><a href="https://mural.maynoothuniversity.ie/id/eprint/9005/1/KT_wounded%20cities%202012.pdf">https://mural.maynoothuniversity.ie/id/eprint/9005/1/KT_wounded%20cities%202012.pdf</a></p>
+</section>
+
+<!-- ============ 07 ============ -->
+<section class="section" id="p7">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">07</span>American Ethnologist 23(4) · 1996<span class="lit-tag">人類学</span></div>
+    <h2>Spatializing Culture</h2>
+    <p class="lead">サンホセの広場で都市空間の民族誌の方法を示す。</p>
+  </div>
+  <div class="lit-meta people">
+    <div><b>Setha M. Low</b>著者</div>
+    <div><b>American Ethnologist 23(4)</b>誌名<br><small>1996</small></div>
+    <div><b class="mono">296</b>被引用<br><small>OpenAlex・2026-10-14</small></div>
+    <div><b>購読</b>本文の公開<br><small>所属機関の契約か購入で読む</small></div>
+  </div>
+  <div class="lit-sumhead"><div class="subhead">概要</div><span class="lit-basis">根拠: 要旨</span></div>
+  <p class="lit-summary" data-id="7">都市空間を人類学的に、しかも民族誌として研究するとはどういうことかを、具体的な方法として示した論文である。ロウは空間と文化の分析を4つの領域に分ける。歴史的な成り立ち、政治・経済による構造化、人々による使われ方、経験される意味である。事例はコスタリカの首都サンホセの2つの広場で、空間の実践、象徴的な意味、社会的な統制がどう媒介し合うかを描く。さまざまな集団や政治の力が、文化的に重要な公共空間を自分のものとして定義しようと争う姿が見えてくる。地域の文化が都市空間にどう刻まれ、争われるかを捉えるための方法論の基礎になっている。</p>
+  <p class="lit-link"><span class="lit-st paywall">購読</span><a href="https://doi.org/10.1525/ae.1996.23.4.02a00100">https://doi.org/10.1525/ae.1996.23.4.02a00100</a></p>
+</section>
+
+<!-- ============ 08 ============ -->
+<section class="section" id="p8">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">08</span>Anthropological Quarterly 78(1) · 2005<span class="lit-tag">人類学</span></div>
+    <h2>The Abuses of Memory</h2>
+    <p class="lead">人類学における記憶概念の膨張を批判。</p>
+  </div>
+  <div class="lit-meta people">
+    <div><b>David Berliner</b>著者</div>
+    <div><b>Anthropological Quarterly 78(1)</b>誌名<br><small>2005</small></div>
+    <div><b class="mono">288</b>被引用<br><small>OpenAlex・2026-10-14</small></div>
+    <div><b>購読</b>本文の公開<br><small>所属機関の契約か購入で読む</small></div>
+  </div>
+  <div class="lit-sumhead"><div class="subhead">概要</div><span class="lit-basis">根拠: 紹介</span></div>
+  <p class="lit-summary" data-id="8">人文学・社会科学で「記憶」の研究が急増し、人類学でも「記憶の人類学」が大学の講義として定着した状況を、ベルリネールは批判的に振り返る。歴史学者が指摘してきた用語の乱立は人類学にも及んでいる、と論じたとされる。記憶という語が、文化の伝承や持続のほとんどすべてを指すまでに膨らみ、分析の道具としての鋭さを失っているという問題提起である。都市の記憶や地域の記憶を研究の枠組みに据えるとき、何を「記憶」と呼び、何を呼ばないのかを先に決めておく必要がある。この自己点検を促す理論論文として位置づけられる。要旨は未入手で、書誌と二次的な紹介に基づく。</p>
+  <p class="lit-link"><span class="lit-st paywall">購読</span><a href="https://muse.jhu.edu/article/178196">https://muse.jhu.edu/article/178196</a></p>
+</section>
+
+<!-- ============ 09 ============ -->
+<section class="section" id="p9">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">09</span>Current Anthropology 51(S2) · 2010<span class="lit-tag">人類学</span></div>
+    <h2>Engagement, Gentrification, and the Neoliberal Hijacking of History</h2>
+    <p class="lead">歴史保存がジェントリフィケーションの口実になる過程。</p>
+  </div>
+  <div class="lit-meta people">
+    <div><b>Michael Herzfeld</b>著者</div>
+    <div><b>Current Anthropology 51(S2)</b>誌名<br><small>2010</small></div>
+    <div><b class="mono">167</b>被引用<br><small>OpenAlex・2026-10-14</small></div>
+    <div><b>全文</b>本文の公開<br><small>無料で全文を確認済み</small></div>
+  </div>
+  <div class="lit-sumhead"><div class="subhead">概要</div><span class="lit-basis">根拠: 要旨</span></div>
+  <p class="lit-summary" data-id="9">ギリシャ、イタリア、タイでの現地調査をもとに、歴史的な町並みの保存がジェントリフィケーション（再開発による住民の入れ替わり）を正当化する口実として使われる過程を描く。歴史が商品になり、新自由主義的な近代の目的に沿った分類が都市計画に持ち込まれる。人類学が伝統的に扱ってきた分類の分析を、官僚機構が日常の経験と知識を生み出す仕組みの分析へと向け直す。「遺産」という考え方は、特定の文化に根ざした親族・居住・所有の観念に支えられているが、国民国家を通じて世界中で支配的になった。ここに挙げた10本のうち、遺産の保存と住民の暮らしが衝突する場面を最も正面から扱っている。</p>
+  <p class="lit-link"><span class="lit-st open">全文</span><a href="http://nrs.harvard.edu/urn-3:HUL.InstRepos:34353686">http://nrs.harvard.edu/urn-3:HUL.InstRepos:34353686</a></p>
+</section>
+
+<!-- ============ 10 ============ -->
+<section class="section" id="p10">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">10</span>Ageing &amp; Society 35 · 2015<span class="lit-tag">人類学</span></div>
+    <h2>Socialising place attachment</h2>
+    <p class="lead">場所への愛着は社会的記憶と身体の感覚を通じて共同でつくられる（半農村の事例）。</p>
+  </div>
+  <div class="lit-meta people">
+    <div><b>Cathrine Degnen</b>著者</div>
+    <div><b>Ageing &amp; Society 35</b>誌名<br><small>2015</small></div>
+    <div><b class="mono">120</b>被引用<br><small>OpenAlex・2026-10-14</small></div>
+    <div><b>全文</b>本文の公開<br><small>無料で全文を確認済み</small></div>
+  </div>
+  <div class="lit-sumhead"><div class="subhead">概要</div><span class="lit-basis">根拠: 本文</span></div>
+  <p class="lit-summary" data-id="10">高齢期の「場所への愛着」は、これまで主に個人の経験として研究されてきた。人類学者のデグネンはイングランド北部、南ヨークシャーの旧炭鉱地域にある半農村ドッドワースで行った2期にわたる参与観察をもとに、愛着がほかの人々や出来事との関係の中でつくられることを示す。愛着は、共同で語られ議論される社会的記憶の実践と、身体と感覚の知識を通じて、つくられ続けるものだとデグネンは論じる。自分の歴史と他人の歴史が場所に結びつき、友人や隣人とのやり取りの中で更新されていく。都市の事例ではないが、地域の文化と記憶の結びつきを民族誌で示した論文として選んだ。</p>
+  <p class="lit-link"><span class="lit-st open">全文</span><a href="https://doi.org/10.1017/s0144686x15000653">https://doi.org/10.1017/s0144686x15000653</a><span class="hint">Cambridge のオープンアクセス版</span></p>
+</section>
+
+<!-- ============ B-1 補欠と書籍 ============ -->
+<section class="section" id="b1">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">B-1</span>Reserve papers · Books</div>
+    <h2>補欠と書籍</h2>
+    <p class="lead">10本に入れなかった補欠3本と、検索の対象外だった書籍3冊。書籍は被引用数の比較に含めていない。</p>
+  </div>
+  <div class="two">
+    <div>
+      <div class="subhead">補欠（3本）</div>
+      <ul class="pts">
+        <li>Crang &amp; Travlou（2001）</li>
+        <li>Hebbert（2005）</li>
+        <li>Tolia-Kelly（2004）</li>
+      </ul>
+    </div>
+    <div>
+      <div class="subhead">書籍（3冊）</div>
+      <ul class="pts">
+        <li class="warn">Huyssen『Present Pasts』</li>
+        <li class="warn">Low &amp; Lawrence-Zúñiga 編</li>
+        <li class="warn">Boyer『The City of Collective Memory』</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ 結び（限界） ============ -->
+<section class="closing" id="closing">
+  <div class="closing-inner">
+    <div class="eyebrow">Limits of this list</div>
+    <h2 class="msg">無料で全文を確認できたのは、10本のうち3本にとどまる。</h2>
+    <div class="msg-rule"></div>
+    <div class="voices">
+      <div><b>全文確認の範囲</b><span>06・09・10 番の3本。残る7本は購読が必要（大学図書館などを経由して読む）。</span></div>
+      <div><b>検索の対象外</b><span>日本語文献と書籍。ここに挙げた書籍3冊も被引用数の比較には含めていない。</span></div>
+    </div>
+    <p class="msg-note">被引用数は OpenAlex の 2026-10-14 時点の値で、以後は動く。概要の根拠が「紹介」の項目（01・04・08）は要旨が入手できず、書誌と二次的な紹介に基づくため、精度が他より低い。</p>
+  </div>
+</section>
+
+<footer class="foot"><div>esse-sense.inc</div><div class="c">地域の文化 × 都市の記憶 ― 読むべき主要論文10本 ・ 2026.10</div><div class="mono">v2.0</div></footer>
+</body>
+</html>
