@@ -33,7 +33,7 @@ ESSAY = [
 # ---------------- Part B: plan ----------------
 PLAN = [
  ("pl1", "Background", "背景と問題意識", [
-  "気候変動によって、豪雨・洪水・猛暑・山火事といった甚大な災害は、かつての「まれな出来事」から、繰り返し訪れる条件へと変わりつつある。災害は日常を断ち切る非日常であると同時に、その非日常が常態になっていくという矛盾を地域に突きつける。このとき揺らぐのは住まいや街並みだけではない。場所に結びついた記憶、そこで受け継がれてきた文化、人々が互いを支え合う関係の形もまた揺らぐ。本研究は、この揺らぎのなかで、地域が新たな記憶と民主主義と文化をどのように生み出しうるのかを問う（問題意識の詳細は Part A の論考を参照）。",
+  "気候変動によって、豪雨・洪水・猛暑・山火事といった甚大な災害は、かつての「まれな出来事」から、繰り返し訪れる条件へと変わりつつある。災害は日常を断ち切る非日常であると同時に、その非日常が常態になっていくという矛盾を地域に突きつける。このとき揺らぐのは住まいや街並みだけではない。場所に結びついた記憶、そこで受け継がれてきた文化、人々が互いを支え合う関係の形もまた揺らぐ。本研究は、この揺らぎのなかで、地域が新たな記憶と民主主義と文化をどのように生み出しうるのかを問う（問題意識の詳細は巻末の参考論考を参照）。",
  ], None),
  ("pl2", "Theoretical basis", "理論的基盤", [
   "本研究は2つの側から問いを組み立てる。一方の側は、場所と記憶の研究と、深層民主主義の研究である。前者については、場所と記憶の関係を包括的に批判検討した論考を基盤とする。この論考は、ノラの「記憶の場」、アルヴァックス以来の集合的記憶論、場所への愛着研究といった基本となる研究群を整理したうえで、その限界を指摘している。すなわち、記憶が国家や記念碑の側から語られやすく、日々の暮らしのなかで生きられる記憶が捉えにくいという点である。あわせて、忘却を7つの型に分けたコナトン（2008）と、傷を負った都市での「記憶の作業」とケアの倫理を論じたティル（2012）を、失われることを一様な喪失として扱わず読み分けるための手がかりとする。",
@@ -90,7 +90,7 @@ def chars(ps):
 
 def build():
     plan_body_chars = sum(chars(ps) for _, _, _, ps, _ in PLAN) + sum(len(v) for _, v in RQ)
-    toc_a = '      <a class="toc-item" href="#p-essay"><span class="n">A</span><span class="t">論考<small>' + e(ESSAY_TITLE) + '</small></span></a>'
+    toc_a = '      <a class="toc-item" href="#p-essay"><span class="n">B-1</span><span class="t">参考論考：問題意識<small>' + e(ESSAY_TITLE) + '</small></span></a>'
     toc_b = "\n".join(
         f'      <a class="toc-item" href="#{sid}"><span class="n">{i:02d}</span><span class="t">{e(h)}<small>{e(en)}</small></span></a>'
         for i, (sid, en, h, _, _) in enumerate(PLAN, 1))
@@ -108,11 +108,11 @@ def build():
     <div class="eyebrow"><span class="n">00</span>Research plan · Draft</div>
     <h2>{e(TITLE)}</h2>
     <p class="plan-sub">{e(SUBTITLE)}</p>
-    <p class="lead">タブ1「地域の文化 × 都市の記憶」とタブ2「災害・気候変動 × 場所の記憶」の文献を下敷きに組み立てた、修士論文の研究計画の下書きである。Part A で研究の背景にある問題意識を論考として述べ、Part B で研究計画を示す。</p>
+    <p class="lead">タブ1「地域の文化 × 都市の記憶」とタブ2「災害・気候変動 × 場所の記憶」の文献を下敷きに組み立てた、修士論文の研究計画の下書きである。巻末に、研究の背景にある問題意識を述べた論考を参考として添える。</p>
   </div>
   <div class="facts">
-    <div class="fact"><div class="fact-label">Part A</div><div class="fact-num ink">{chars(ESSAY):,}<span class="unit">字</span></div><div class="fact-desc">論考「{e(ESSAY_TITLE)}」</div></div>
-    <div class="fact"><div class="fact-label">Part B</div><div class="fact-num ink">{plan_body_chars:,}<span class="unit">字</span></div><div class="fact-desc">研究計画（背景・理論的基盤・問い・方法・貢献）</div></div>
+    <div class="fact"><div class="fact-label">研究計画</div><div class="fact-num ink">{plan_body_chars:,}<span class="unit">字</span></div><div class="fact-desc">背景・理論的基盤・問い・方法・貢献</div></div>
+    <div class="fact"><div class="fact-label">参考論考</div><div class="fact-num ink">{chars(ESSAY):,}<span class="unit">字</span></div><div class="fact-desc">巻末「{e(ESSAY_TITLE)}」</div></div>
     <div class="fact"><div class="fact-label">研究の問い</div><div class="fact-num ink">{len(RQ)}<span class="unit">つ</span></div><div class="fact-desc">記憶の作り直し・形式の外の合意・地域とグローバルの接続</div></div>
   </div>
   <div class="note ink">下書き（2026-10-16）。理論的基盤の中心に据える2本（場所と記憶の包括的な批判的論考、深層民主主義の論文）は特定を確認中のため、書誌を挙げていない。調査地と調査期間は仮置きで、指導教員との調整を前提とする。引用した文献はタブ1・タブ2に書誌と概要がある。</div>
@@ -122,34 +122,34 @@ def build():
   <div class="sec-head"><div class="eyebrow"><span class="n">00</span>Contents</div><h2>目次</h2></div>
   <div class="toc">
     <div class="toc-col a">
-      <div class="toc-head"><div class="letter">A</div><div class="lab"><small>Part A</small>問題意識</div></div>
-{toc_a}
-    </div>
-    <div class="toc-col b">
-      <div class="toc-head"><div class="letter">B</div><div class="lab"><small>Part B</small>研究計画</div></div>
+      <div class="toc-head"><div class="letter">A</div><div class="lab"><small>Part A</small>研究計画</div></div>
 {toc_b}
     </div>
+    <div class="toc-col b">
+      <div class="toc-head"><div class="letter">B</div><div class="lab"><small>Part B</small>参考</div></div>
+{toc_a}
+    </div>
   </div>
-</section>
-
-<section class="section" id="p-essay">
-  <div class="sec-head">
-    <div class="eyebrow"><span class="n">A</span>Essay · Problem statement</div>
-    <h2>{e(ESSAY_TITLE)}</h2>
-    <p class="lead">研究計画の背景にある問題意識を、論考として述べる。</p>
-  </div>
-{paras(ESSAY)}
 </section>
 
 <section class="section" id="p-plan-head">
   <div class="sec-head">
-    <div class="eyebrow"><span class="n">B</span>Research plan</div>
+    <div class="eyebrow"><span class="n">A</span>Research plan</div>
     <h2>研究計画</h2>
     <p class="lead">{e(TITLE)}――{e(SUBTITLE)}</p>
   </div>
 </section>
 
 {plan_html}
+
+<section class="section" id="p-essay">
+  <div class="sec-head">
+    <div class="eyebrow"><span class="n">B-1</span>Appendix · Problem statement</div>
+    <h2>{e(ESSAY_TITLE)}</h2>
+    <p class="lead">参考として、研究計画の背景にある問題意識を論考として述べる。</p>
+  </div>
+{paras(ESSAY)}
+</section>
 </main>
 </div>
 <!-- TAB:plan:end -->
